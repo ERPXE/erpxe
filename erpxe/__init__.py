@@ -3,7 +3,7 @@
 
 Usage:
   erpxe list
-  erpxe gen-menu [--quiet | --verbose] [--c=<fn>]
+  erpxe render [--quiet | --verbose] [--c=<fn>]
   erpxe disable <plugin>
   erpxe enable <plugin>
   erpxe (-h | --h | --help)

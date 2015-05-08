@@ -4,7 +4,7 @@ def cli(arguments):
     verbose = arguments['--verbose']
     if arguments['list']:
 	show_plugins()
-    if arguments['gen-menu']:
+    if arguments['render']:
 	generate_menu()
     if arguments['enable']:
 	plugin = arguments['<plugin>']
@@ -37,11 +37,11 @@ load_conf_file()
 def generate_menu():
     try:
 	core.get_configuration()
+	print("ERPXE menu rendered succesfully")
     except Exception, e:
 	print str(e)    
 	print "missing configuration file. use 'erpxe create-configuration-file' command to create one from template"
 	return
-
     core.generate_menu(TFTPBOOT_DIR, PLUGINS_DIR)
 
 def enable(PLUGIN):
