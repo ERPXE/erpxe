@@ -1,0 +1,59 @@
+# QuickLaunch view
+
+# Functional Keys (F1-F12) Section
+{% include 'shared/fn-k.module' %}
+
+# Config Module Include
+{% include 'shared/security.module' %}
+
+MENU INCLUDE {{path.skin}}/splash.conf
+{% if enable_timeout %}
+    # Default splash menu autoboot
+    # Message
+    MENU AUTOBOOT Booting System in # seconds...
+    # Set autoboot timeout.
+    TIMEOUT 200
+    # Do not display the actual menu unless the user presses a key
+    MENU HIDDEN
+{% endif %}
+
+MENU TITLE ERPXE QuickLaunch Menu
+
+LABEL ERPXEMENU
+MENU LABEL Enter ^ERPXE
+KERNEL {{path.roms}}/vesamenu.c32
+APPEND /pxelinux.cfg/mainmenu
+TEXT HELP
+     ERPXE Main Menu.
+ENDTEXT
+
+# ------====> QuickLaunch <====------
+MENU BEGIN QuickLaunch
+    MENU LABEL ERPXE ^QuickLaunch
+
+    ### TODO HERE WE NEED TO GERENEATE THE CUSTOM QUICKLAUNCH ITEMS USER WANT
+
+    INCLUDE {{path.plugins}}/memtest/memtest.menu
+    INCLUDE {{path.plugins}}/ntpasswd/ntpasswd.menu
+    INCLUDE {{path.plugins}}/pxelinux/dmipcicpu.menu
+    INCLUDE {{path.plugins}}/pxelinux/hdt.menu
+
+    # Back to previous menu
+    {% include 'shared/menu-back.module' %}
+MENU END
+
+# ------====> Separator <====------
+MENU SEPARATOR
+
+# ------====> Boot Local Option <====------
+{% include 'shared/bootlocal.module' %}
+MENU DEFAULT
+
+# ------====> Boot Menu <====------
+{% include 'shared/bootlocal-menu.module' %}
+
+# ------====> Reboot <====------
+{% include 'shared/reboot.module' %}
+
+# ------====> Power Off <====------
+{% include 'shared/poweroff.module' %}

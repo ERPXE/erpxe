@@ -1,0 +1,9 @@
+{% macro func(key, filename, image='menu.png') -%}
+{{key}} {{path.fdoc}}/{{filename}} {{path.skin}}/{{image}}
+{%- endmacro %}
+
+# Functional Keys Section
+{{ func('F1', 'f1-help.txt') }}
+{{ func('F2', 'f2-about.txt') }}
+{{ func('F3', 'f3-version.txt') }}
+{{ func('F4', 'f4-contrib.txt') }}

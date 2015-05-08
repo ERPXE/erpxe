@@ -1,0 +1,17 @@
+MENU BEGIN ADVANCEDBOOTOPTIONS
+
+MENU TITLE Select Boot Device
+MENU LABEL ^Select Boot Device
+
+# ------====> Quit To Shell <====------
+{% include 'shared/shell.module' %}
+
+# ------====> Seperator <====------
+MENU SEPARATOR
+
+{% include 'shared/bootlocal-options.module' %}
+
+# ------====> Back <====------
+{% include 'shared/menu-back.module' %}
+
+MENU END

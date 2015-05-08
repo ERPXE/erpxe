@@ -1,0 +1,20 @@
+# Sets a master password. This password can be used to boot any menu entry, 
+# and is required for the [Tab] and [Esc] keys to work.
+MENU MASTER PASSWD {{password.master}}
+
+# If set to 1, ignore the Shift/Alt/Caps Lock/Scroll Lock escapes. 
+# Use this (together with PROMPT 0) to force the default boot selection.
+NOESCAPE {% if config.enable_locks %}0{% else %}1{% endif %}
+
+# If set to  0, display the boot prompt only if the Shift or Alt key is pressed, or Caps Lock or Scroll lock is set
+# (this is the default). If set to 1, always display the boot prompt.
+PROMPT {% if config.press_alt %}0{% else %}1{% endif %}
+
+# If ALLOWOPTIONS is 0, the user is not allowed to specify any arguments on the kernel command line. 
+# The only options recognized are those specified in an APPEND statement. The default is 1.
+ALLOWOPTIONS {% if config.disable_kernel_edit %}0{% else %}1{% endif %}
+
+# uncomment to boot from the hard drive by default and show the PXE menu only if you hold down Ctrl-Alt.
+{% if config.boot_from_hd %}
+    MENU SHIFTKEY 1
+{% endif %}

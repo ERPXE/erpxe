@@ -1,0 +1,23 @@
+# main-menu.menu
+
+# Functional Keys (F1-F12) Section
+{% include 'shared/fn-k.module' %}
+
+# Config Module Include
+{% include 'shared/security.module' %}
+
+MENU INCLUDE {{path.skin}}/menu.conf
+MENU TITLE ERPXE Main Menu
+# ------------------------------------------------
+
+{% block menu %}
+{% endblock %}
+
+# ------====> Separator <====------
+MENU SEPARATOR
+
+# ------====> Line <====------
+{% include 'shared/menu-line.module' %}
+
+# ------====> Advanced Menu <====------
+{% include 'mainmenu/advanced.tmpl' %}

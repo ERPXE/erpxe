@@ -1,0 +1,15 @@
+# ERPXE Boot... Everything starts here...
+
+# Load vesamenu.c32
+UI {{path.roms}}/vesamenu.c32
+DEFAULT {{path.roms}}/vesamenu.c32
+
+# boot.txt Splash
+DISPLAY {{path.default}}/boot.txt
+
+# Load Quicklaunch
+{% if enable_quicklaunch %}
+    {% include 'quicklaunch/quicklaunch.tmpl' %}
+{% else %}
+    {% include 'mainmenu/mainmenu.tmpl' %}
+{% endif %}
