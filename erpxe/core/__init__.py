@@ -160,11 +160,13 @@ def getDisableFile(PLUGINS_DIR, PLUGIN):
     global disable_filename
     return PLUGINS_DIR+"/"+PLUGIN+"/" + disable_filename
 
+def is_plugin_exist(PLUGINS_DIR, PLUGIN):
+    plugin_dir = PLUGINS_DIR + "/" + PLUGIN
+    return os.path.isdir(plugin_dir)
+
 def disable_plugin(TFTPBOOT_DIR, PLUGINS_DIR, PLUGIN):
     open(getDisableFile(PLUGINS_DIR,PLUGIN), 'a').close()
-    print "Plugin disabled"
     generate_menu(TFTPBOOT_DIR, PLUGINS_DIR)
-    print "Regenerating menu.."
 
 def enable_plugin(TFTPBOOT_DIR, PLUGINS_DIR, PLUGIN):
     filename = getDisableFile(PLUGINS_DIR,PLUGIN)
@@ -172,7 +174,5 @@ def enable_plugin(TFTPBOOT_DIR, PLUGINS_DIR, PLUGIN):
 	os.remove(filename)
 	print "Plugin enabled"
 	generate_menu(TFTPBOOT_DIR, PLUGINS_DIR)
-	print "Regenerating menu.."
     else:
 	print "Plugin was not disabled"
-

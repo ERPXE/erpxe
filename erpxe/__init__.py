@@ -18,27 +18,16 @@ Options:
 
 """
 from __future__ import print_function
-__author__ = "Etay Cohen-Solal"
+__author__ = "Etay Cohen-Solal & Adam Mallul"
 __copyright__ = "Copyright 2015, Etay Cohen-Solal"
 __license__ = "GNU"
 __maintainer__ = "Etay Cohen-Solal & Adam Mallul"
 __status__ = "Development"
 package = "erpxe"
-version = "2.0"
 
 import os, sys
 
-### -----------
-### Directories
-### -----------
-# ERPXE path
-script_path = os.path.dirname(os.path.abspath(__file__))
-# Current working dir
-current_working_dir = os.getcwd()
-project_path = os.getcwd()
-
 # Get version from setup.py
-
 from pkg_resources import get_distribution, DistributionNotFound
 try:
     _dist = get_distribution(package)
@@ -55,7 +44,6 @@ else:
 version = __version__
 
 def main():
-    from core import *
     """Entry point for the 'erpxe' application script"""
     from docopt import docopt
     arguments = docopt(__doc__, version="ERPXE v" + version)
