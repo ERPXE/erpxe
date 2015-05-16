@@ -13,10 +13,10 @@ def cli(arguments):
 	plugin = arguments['<plugin>']
 	disable(plugin)
 
+TFTPBOOT_DIR = "/tftpboot"
+PLUGINS_DIR = TFTPBOOT_DIR + "/er/plugins"
 
 def show_plugins():
-    TFTPBOOT_DIR = "/tftpboot"
-    PLUGINS_DIR = TFTPBOOT_DIR + "/er/plugins"
     plugins = core.get_plugins_list(PLUGINS_DIR)
     if plugins:
 	print "Installed plugins:"
@@ -44,17 +44,31 @@ def generate_menu():
 	return
     core.generate_menu(TFTPBOOT_DIR, PLUGINS_DIR)
 
+from difflib import SequenceMatcher
+
+def similar(PLUGIN):
+    plugins = core.get_plugins_list(PLUGINS_DIR)
+    bestName = ''
+    bestScore = 0
+    for plugin in plugins:
+	score = SequenceMatcher(None, PLUGIN, plugin['name']).ratio()
+	if score > bestScore:
+	    bestScore = score
+	    bestName = plugin['name']
+    if bestScore > 0:
+	print "maybe you meant: " + bestName + " ?"
+
 # Enable plugin
 def enable(PLUGIN):
     if not core.is_plugin_exist(PLUGINS_DIR, PLUGIN):
 	print "plugin not exist"
-	return
+	return similar (PLUGIN)
     core.enable_plugin(TFTPBOOT_DIR, PLUGINS_DIR, PLUGIN)
 
 # Disable plugin
 def disable(PLUGIN):
     if not core.is_plugin_exist(PLUGINS_DIR, PLUGIN):
 	print "plugin not exist"
-	return
+	return similar (PLUGIN)
     core.disable_plugin(TFTPBOOT_DIR, PLUGINS_DIR, PLUGIN)
     print "Plugin disabled"
