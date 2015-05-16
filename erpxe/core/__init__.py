@@ -164,8 +164,18 @@ def is_plugin_exist(PLUGINS_DIR, PLUGIN):
     plugin_dir = PLUGINS_DIR + "/" + PLUGIN
     return os.path.isdir(plugin_dir)
 
+class PluginNotExistException(Exception):
+    pass
+
 def disable_plugin(TFTPBOOT_DIR, PLUGINS_DIR, PLUGIN):
+    """Disable plugin will create the .disabled file in the plugin dir"""
+    # TODO check that PLUGINS_DIR exist
+    # check that PLUGIN exist inside PLUGINS_DIR
+    if not is_plugin_exist(PLUGINS_DIR, PLUGIN):
+	raise PluginNotExistException(PLUGIN)
+    # create the DisableFile
     open(getDisableFile(PLUGINS_DIR,PLUGIN), 'a').close()
+    # regenreate menu
     generate_menu(TFTPBOOT_DIR, PLUGINS_DIR)
 
 def enable_plugin(TFTPBOOT_DIR, PLUGINS_DIR, PLUGIN):
@@ -176,3 +186,4 @@ def enable_plugin(TFTPBOOT_DIR, PLUGINS_DIR, PLUGIN):
 	generate_menu(TFTPBOOT_DIR, PLUGINS_DIR)
     else:
 	print "Plugin was not disabled"
+
