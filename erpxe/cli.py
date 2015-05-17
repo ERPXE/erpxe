@@ -51,8 +51,8 @@ def similar(PLUGIN):
     bestName = ''
     bestScore = 0
     for plugin in plugins:
-	score = SequenceMatcher(None, PLUGIN, plugin['name']).ratio()
-	if score > bestScore:
+	score = SequenceMatcher(None, PLUGIN.lower(), plugin['name'].lower()).ratio()
+	if score > bestScore and score > .5:
 	    bestScore = score
 	    bestName = plugin['name']
     if bestScore > 0:
