@@ -1,6 +1,11 @@
-import os
+# import the ERPXE core API
 import core
 
+# Global variables
+TFTPBOOT_DIR = "/tftpboot"
+PLUGINS_DIR = TFTPBOOT_DIR + "/er/plugins"
+
+# parse CLI arguments
 def cli(arguments):
     verbose = arguments['--verbose']
     if arguments['list']:
@@ -16,18 +21,17 @@ def cli(arguments):
 	plugin = arguments['<plugin>']
 	disable(plugin)
 
-TFTPBOOT_DIR = "/tftpboot"
-PLUGINS_DIR = TFTPBOOT_DIR + "/er/plugins"
-
 def print_status():
+    import os.path
+    # print some pre-status header
     print "ERPXE v2.0"
+    # test folders
     print "TFTPBOOT path: " + TFTPBOOT_DIR
     if os.path.isdir(TFTPBOOT_DIR):
 	print "directory found."
     print "Plugins path: " + PLUGINS_DIR
     if os.path.isdir(PLUGINS_DIR):
         print "directory found."
-
 
 def show_plugins():
     plugins = core.get_plugins_list(PLUGINS_DIR)
@@ -57,9 +61,10 @@ def generate_menu():
 	return
     core.generate_menu(TFTPBOOT_DIR, PLUGINS_DIR)
 
-from difflib import SequenceMatcher
+
 
 def similar(PLUGIN):
+    from difflib import SequenceMatcher
     plugins = core.get_plugins_list(PLUGINS_DIR)
     bestName = ''
     bestScore = 0
