@@ -30,6 +30,16 @@ def get_configuration():
     CONF = config
     return config
 
+class Plugin:
+    "Represents one ERPXE plugin"
+    name = ''
+    def __init__(self, name):
+	self.name = name
+
+def get_plugin(PLUGINS_DIR, PLUGIN):
+    plugin = Plugin(PLUGIN)
+    return plugin
+
 def get_plugins_list(PLUGINS_DIR):
     global disable_filename
     plugins = []

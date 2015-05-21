@@ -5,6 +5,15 @@ import core
 TFTPBOOT_DIR = "/tftpboot"
 PLUGINS_DIR = TFTPBOOT_DIR + "/er/plugins"
 
+# try to Load configuration from file system or use defaults
+def load_configuration():
+    # try to fetch configuration from file
+    try:
+        config = core.get_configuration()
+    except:
+	print "error loading "
+load_configuration()
+
 # parse CLI arguments
 def cli(arguments):
     verbose = arguments['--verbose']
@@ -43,13 +52,6 @@ def show_plugins():
 	    else:
 		print plugin['name']
 
-def load_conf_file():
-    # TODO Implement this
-    global TFTPBOOT_DIR, PLUGINS_DIR
-    TFTPBOOT_DIR = "/tftpboot"
-    PLUGINS_DIR = TFTPBOOT_DIR + "/er/plugins"
-load_conf_file()
-
 # Generate Menu files inside the TFTPBOOT folder.
 def generate_menu():
     try:
@@ -60,8 +62,6 @@ def generate_menu():
 	print "missing configuration file. use 'erpxe create-configuration-file' command to create one from template"
 	return
     core.generate_menu(TFTPBOOT_DIR, PLUGINS_DIR)
-
-
 
 def similar(PLUGIN):
     from difflib import SequenceMatcher
