@@ -1,9 +1,12 @@
+import os
 import core
 
 def cli(arguments):
     verbose = arguments['--verbose']
     if arguments['list']:
 	show_plugins()
+    elif arguments['status']:
+	print_status()
     elif arguments['render']:
 	generate_menu()
     elif arguments['enable']:
@@ -15,6 +18,16 @@ def cli(arguments):
 
 TFTPBOOT_DIR = "/tftpboot"
 PLUGINS_DIR = TFTPBOOT_DIR + "/er/plugins"
+
+def print_status():
+    print "ERPXE v2.0"
+    print "TFTPBOOT path: " + TFTPBOOT_DIR
+    if os.path.isdir(TFTPBOOT_DIR):
+	print "directory found."
+    print "Plugins path: " + PLUGINS_DIR
+    if os.path.isdir(PLUGINS_DIR):
+        print "directory found."
+
 
 def show_plugins():
     plugins = core.get_plugins_list(PLUGINS_DIR)

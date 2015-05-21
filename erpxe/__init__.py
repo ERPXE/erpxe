@@ -2,6 +2,7 @@
 """ERPXE.
 
 Usage:
+  erpxe status
   erpxe list
   erpxe render [--quiet | --verbose] [--c=<fn>]
   erpxe disable <plugin>
