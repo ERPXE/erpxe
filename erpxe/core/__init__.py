@@ -38,7 +38,9 @@ class Plugin:
 
 def get_parsed_plugin(PLUGINS_DIR, PLUGIN_NAME):
     plugin = get_plugin(PLUGINS_DIR, PLUGIN_NAME)
-    return scan_xml(plugin)
+    if plugin:
+	return scan_xml(plugin)
+    return plugin
 
 def get_plugin(PLUGINS_DIR, PLUGIN_NAME):
     plugin = None
