@@ -36,6 +36,10 @@ class Plugin:
     def __init__(self, name):
 	self.name = name
 
+def get_parsed_plugin(PLUGINS_DIR, PLUGIN_NAME):
+    plugin = get_plugin(PLUGINS_DIR, PLUGIN_NAME)
+    return scan_xml(plugin)
+
 def get_plugin(PLUGINS_DIR, PLUGIN_NAME):
     plugin = None
     global disable_filename
