@@ -83,12 +83,11 @@ def get_plugin(PLUGINS_DIR, PLUGIN_NAME):
     DEACTIVATED_FILE = PLUGIN_DIR + "/" + disable_filename
     disabled = os.path.isfile(DEACTIVATED_FILE)
     plugin['disabled'] = disabled
-    plugin['enabled'] = not disabled
 
     # Some missing important data to ERPXE 1.0 plugins
     if compat == 1:
 	plugin['name'] = PLUGIN_NAME
-        plugin['shortInfo'] = 'Depreceated ERPXE 1.x plugin. please upgrade'
+        plugin['description'] = 'Depreceated ERPXE 1.x plugin. please upgrade'
         plugin['menu'] = 'er/plugins/' + PLUGIN_NAME + "/" + PLUGIN_NAME + ".menu"
 
     # and we're done!
@@ -98,6 +97,7 @@ xmlMapping = {
     'UpdateDate' 	: 'lastUpdated',
     'MaintainerEMail' 	: 'maintainerEmail',
     'AuthorEMail' 	: 'authorEmail',
+    'ShortInfo'		: 'description',
 }
 
 lowerFirst = lambda s: s[:1].lower() + s[1:] if s else ''
