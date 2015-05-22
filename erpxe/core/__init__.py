@@ -128,7 +128,7 @@ def parse_xml(plugin):
 		p['kernels'].append(text)
 	    else:
 		p['kernel'] = text
-	if tag == "Initrd":
+	elif tag == "Initrd":
 	    if 'initrd' in p:
 		if not 'initrds' in p:
 		    p['initrds'] = [
