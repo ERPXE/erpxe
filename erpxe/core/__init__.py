@@ -36,51 +36,64 @@ class Plugin:
     def __init__(self, name):
 	self.name = name
 
-def get_plugin(PLUGINS_DIR, PLUGIN):
-    plugin = Plugin(PLUGIN)
+def get_plugin(PLUGINS_DIR, PLUGIN_NAME):
+    plugin = None
+    global disable_filename
+    #plugin = Plugin(PLUGIN)
+    #return plugin
+    PLUGIN_DIR = PLUGINS_DIR + "/" + PLUGIN_NAME
+    PLUGIN_1_CONF = PLUGIN_DIR + "/" + PLUGIN_NAME + ".menu"
+    PLUGIN_CONF = PLUGIN_DIR + "/" + "plugin.xml"
+    DEACTIVATED_FILE = PLUGIN_DIR + "/" + disable_filename
+    if os.path.isdir(PLUGIN_DIR):
+        if os.path.isfile(PLUGIN_CONF):
+	    plugin = {}
+	    plugin['compat'] = 2
+	    plugin['name'] = PLUGIN_NAME
+	    plugin['path'] = PLUGIN_DIR
+	    plugin['conf'] = PLUGIN_CONF
+	    if os.path.isfile(DEACTIVATED_FILE):
+	        plugin['deactivated'] = True
+	    else:
+	        plugin['deactivated'] = False
+	elif os.path.isfile(PLUGIN_1_CONF):
+	    plugin = {}
+	    plugin['compat'] = 1
+	    plugin['name'] = PLUGIN_NAME
+	    plugin['Name'] = PLUGIN_NAME
+	    plugin['Dir'] = plugin['name']
+	    plugin['ShortInfo'] = 'Depreceated ERPXE 1.x plugin. please upgrade'
+	    plugin['path'] = PLUGIN_DIR
+	    plugin['conf'] = PLUGIN_1_CONF
+	    plugin['menu'] = 'er/plugins/' + PLUGIN_NAME + "/" + PLUGIN_NAME + ".menu"
+	    if os.path.isfile(DEACTIVATED_FILE):
+	        plugin['deactivated'] = True
+	    else:
+	        plugin['deactivated'] = False
+	    plugin['Deactivated'] = plugin['deactivated']
     return plugin
 
 def get_plugins_list(PLUGINS_DIR):
-    global disable_filename
     plugins = []
-    for d in os.listdir(PLUGINS_DIR):
-	PLUGIN_DIR = PLUGINS_DIR + "/" + d
-	PLUGIN_1_CONF = PLUGIN_DIR + "/" + d + ".menu"
-	PLUGIN_CONF = PLUGIN_DIR + "/" + "plugin.xml"
-	DEACTIVATED_FILE = PLUGIN_DIR + "/" + disable_filename
-	if os.path.isdir(PLUGIN_DIR):
-	    if os.path.isfile(PLUGIN_CONF):
-		plugin = {}
-		plugin['compat'] = 2
-		plugin['name'] = d
-		plugin['path'] = PLUGIN_DIR
-		plugin['conf'] = PLUGIN_CONF
+    if os.path.isdir(PLUGINS_DIR):
+	for d in os.listdir(PLUGINS_DIR):
+	    plugin = get_plugin(PLUGINS_DIR, d)
+	    if plugin:
 		plugins.append(plugin)
-		if os.path.isfile(DEACTIVATED_FILE):
-		    plugin['deactivated'] = True
-		else:
-		    plugin['deactivated'] = False
-	    elif os.path.isfile(PLUGIN_1_CONF):
-		plugin = {}
-		plugin['compat'] = 1
-		plugin['name'] = d
-		plugin['Name'] = d
-		plugin['Dir'] = plugin['name']
-		plugin['ShortInfo'] = 'Depreceated ERPXE 1.x plugin. please upgrade'
-		plugin['path'] = PLUGIN_DIR
-		plugin['conf'] = PLUGIN_1_CONF
-		plugin['menu'] = 'er/plugins/' + d + "/" + d + ".menu"
-		plugins.append(plugin)
-		if os.path.isfile(DEACTIVATED_FILE):
-		    plugin['deactivated'] = True
-		else:
-		    plugin['deactivated'] = False
-		plugin['Deactivated'] = plugin['deactivated']
     return plugins
 
-def is_plugin_exist(PLUGIN):
-    # TODO Implement this
-    return True
+def get_plugins(PLUGINS_DIR):
+    plugins = get_plugins_list(PLUGINS_DIR)
+    plugins_data = []
+    for plugin in plugins:
+	if plugin['compat']==2:
+	    try:
+		plugins_data.append(scan_xml(plugin))
+	    except:
+		pass
+	elif plugin['compat']==1:
+	    plugins_data.append(plugin)
+    return plugins_data
 
 def scan_xml(plugin):
     tree = ET.parse(plugin['conf'])
@@ -142,20 +155,6 @@ def compile_template(templatename, plugins_data):
 def save_file(menustr, TFTPBOOT_DIR, target):
     with open(TFTPBOOT_DIR + target, "w") as menufile:
 	menufile.write(menustr)
-
-def get_plugins(PLUGINS_DIR):
-    plugins = get_plugins_list(PLUGINS_DIR)
-    plugins_data = []
-    for plugin in plugins:
-	if plugin['compat']==2:
-	    try:
-		plugins_data.append(scan_xml(plugin))
-	    except:
-		pass
-	elif plugin['compat']==1:
-	    plugins_data.append(plugin)
-    return plugins_data
-
 def get_plugins_alphabetically(PLUGINS_DIR):
     plugins = get_plugins(PLUGINS_DIR)
     return sorted(plugins, key=lambda k: k['Name'])
