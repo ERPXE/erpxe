@@ -108,14 +108,37 @@ def parse_xml(plugin):
     prefix = "{http://erpxe.com}"
     p = plugin
     for item in root:
+	# validate that it's not empty
 	if not item.text.strip('\t\n\r'):
 	    raise Exception("missing data")
+	# then we can extract each tag/text (key/value)
 	tag = item.tag.replace(prefix, '')
 	text = item.text.strip('\t\n\r')
+	# tweak some fields
 	if tag == "Append":
 	    SERVER_IP = "10.0.0.1"
 	    text = text.replace('%ip', SERVER_IP)
-	if tag in xmlMapping:
+	# handle special fields
+	if tag == "Kernel":
+	    if 'kernel' in p:
+		if not 'kernels' in p:
+		    p['kernels'] = [
+			p['kernel']
+		    ]
+		p['kernels'].append(text)
+	    else:
+		p['kernel'] = text
+	if tag == "Initrd":
+	    if 'initrd' in p:
+		if not 'initrds' in p:
+		    p['initrds'] = [
+			p['initrd']
+		    ]
+		p['initrds'].append(text)
+	    else:
+		p['initrd'] = text
+	# or add field to our model
+	elif tag in xmlMapping:
 	    p[xmlMapping[tag]] = text
 	else:
 	    p[lowerFirst(tag)] = text
