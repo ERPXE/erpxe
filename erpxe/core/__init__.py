@@ -31,7 +31,7 @@ def get_configuration():
     return config
 
 class Plugin:
-    "Represents one ERPXE plugin"
+    "Represents ERPXE plugin"
     name = ''
     def __init__(self, name):
 	self.name = name
@@ -45,8 +45,7 @@ def get_parsed_plugin(PLUGINS_DIR, PLUGIN_NAME):
 def get_plugin(PLUGINS_DIR, PLUGIN_NAME):
     plugin = None
     global disable_filename
-    #plugin = Plugin(PLUGIN)
-    #return plugin
+    #plugin = Plugin(PLUGIN_NAME)
     PLUGIN_DIR = PLUGINS_DIR + "/" + PLUGIN_NAME
     PLUGIN_1_CONF = PLUGIN_DIR + "/" + PLUGIN_NAME + ".menu"
     PLUGIN_CONF = PLUGIN_DIR + "/" + "plugin.xml"
@@ -201,4 +200,3 @@ def enable_plugin(TFTPBOOT_DIR, PLUGINS_DIR, PLUGIN):
 	generate_menu(TFTPBOOT_DIR, PLUGINS_DIR)
     else:
 	print "Plugin was not disabled"
-
