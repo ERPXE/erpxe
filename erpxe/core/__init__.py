@@ -121,22 +121,20 @@ def parse_xml(plugin):
 	# handle special fields
 	if tag == "Kernel":
 	    if 'kernel' in p:
-		if not 'kernels' in p:
-		    p['kernels'] = [
-			p['kernel']
-		    ]
 		p['kernels'].append(text)
 	    else:
 		p['kernel'] = text
+		p['kernels'] = [
+		    text
+		]
 	elif tag == "Initrd":
 	    if 'initrd' in p:
-		if not 'initrds' in p:
-		    p['initrds'] = [
-			p['initrd']
-		    ]
 		p['initrds'].append(text)
 	    else:
 		p['initrd'] = text
+		p['initrds'] = [
+		    text
+		]
 	# or add field to our model
 	elif tag in xmlMapping:
 	    p[xmlMapping[tag]] = text
